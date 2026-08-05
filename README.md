@@ -124,7 +124,6 @@ Adjacency-list-to-CSR conversion is executed as **preprocessing setup**. Its run
 #### Graph CSR Performance and Output Verification Table
 
 | Mode | Test File | Vertices (V) | Edges (E) | Input Format | Preprocessing Status | Execution Time | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | Single | `csr_input_10.txt` | 10 | 15 | Adjacency List | Converted to CSR | 0.000 ms | Pass |
 | Single | `csr_input_100.txt` | 100 | 200 | Adjacency List | Converted to CSR | 10.624 ms | Pass |
 | Single | `csr_input_1000.txt` | 1,000 | 2,000 | Adjacency List | Converted to CSR | 13.246 ms | Pass |
