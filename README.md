@@ -8,7 +8,7 @@ The repository currently includes implementations, drivers, test cases, benchmar
 
 ---
 
-## 👨‍🎓 Student Details
+## Student Details
 
 | Field | Details |
 |---|---|
@@ -21,7 +21,7 @@ The repository currently includes implementations, drivers, test cases, benchmar
 
 ---
 
-## 📚 Assignments
+## Assignments
 
 ### Assignment 01 — Matrix Multiplication & Sparse Graph Representation
 
@@ -95,7 +95,7 @@ Complexity:
 
 ---
 
-## 🗂️ Repository Structure
+## Repository Structure
 
 ```text
 CS509_CS1028/
@@ -149,7 +149,7 @@ CS509_CS1028/
 
 ---
 
-## 🛠️ Language & Environment
+## Language & Environment
 
 | Component | Configuration |
 |---|---|
@@ -166,7 +166,7 @@ The implementations are designed to be portable across Windows and Linux environ
 
 ---
 
-## ⚙️ Building
+## Building
 
 ### Compile the Common Wrapper
 
@@ -200,7 +200,7 @@ The common wrapper automates execution of the individual task drivers and record
 
 ---
 
-## 📊 Complexity Summary
+## Complexity Summary
 
 | Algorithm / Task | Time Complexity | Space Complexity |
 |---|---:|---:|
@@ -212,7 +212,7 @@ The common wrapper automates execution of the individual task drivers and record
 
 ---
 
-## ⏱️ Performance & Timing
+## Performance & Timing
 
 Execution time is measured using:
 
@@ -237,7 +237,7 @@ For large workloads, the benchmark results demonstrate the expected algorithmic 
 
 ---
 
-## ✅ Verification Status
+## Verification Status
 
 All reported test cases in both assignments completed successfully.
 
@@ -255,16 +255,16 @@ All reported test cases in both assignments completed successfully.
 
 ---
 
-## 📖 Assignment Documentation
+## Assignment Documentation
 
 Detailed implementation information, test cases, benchmark tables, complexity analysis, timing methodology, and verification results are available in the individual assignment README files:
 
-- [📘 Assignment 01 — GEMM & CSR](./Assignment_01/README.md)
-- [📗 Assignment 02 — Bellman-Ford & Floyd-Warshall](./Assignment_02/README.md)
+- [ Assignment 01 — GEMM & CSR](./Assignment_01/README.md)
+- [ Assignment 02 — Bellman-Ford & Floyd-Warshall](./Assignment_02/README.md)
 
 ---
 
-## 🔑 Key Topics Covered
+##  Key Topics Covered
 
 - Matrix multiplication
 - Cache blocking / tiling
@@ -283,7 +283,7 @@ Detailed implementation information, test cases, benchmark tables, complexity an
 
 ---
 
-## 👤 Author
+## Author
 
 **Prashant Kumar**  
 **Entry Number:** 2026CSM1028  
