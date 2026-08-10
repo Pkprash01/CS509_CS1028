@@ -1,0 +1,5 @@
+Algorithm: CSR Graph Conversion
+Vertices (V): 5 | Edges (E): 10 | Source: 0
+row_ptr: 0 2 4 7 9 10 
+col_idx: 1 2 0 3 0 3 4 1 2 2 
+Execution time: 0.000 ms
