@@ -209,6 +209,68 @@ void handle_assignment_2() {
     }
 }
 
+void handle_assignment_3() {
+    int algo_choice = 0;
+    std::cout << "\n--- Assignment 3 Menu ---\n";
+    std::cout << "1. Run Single MST Test File (Kruskal & Prim)\n";
+    std::cout << "2. Batch Run ALL Assignment 3 Inputs (MST)\n";
+    std::cout << "Select task choice (1-2): ";
+    std::cin >> algo_choice;
+
+    if (algo_choice == 1) {
+        std::string filename;
+        std::cout << "Enter MST input filename (e.g., mst_10.txt): ";
+        std::cin >> filename;
+
+        run_cmd("g++ -O3 -I individual_csr Assignment_03/driver/mst_driver.cpp Assignment_03/src/mst.cpp individual_csr/individual_csr.cpp -o Assignment_03/driver/mst_driver.exe");
+        
+        std::string out_name = filename;
+        if (out_name.rfind("mst_", 0) == 0) {
+            out_name.replace(0, 4, "mst_out_");
+        } else {
+            out_name = "mst_out_" + out_name;
+        }
+
+        #ifdef _WIN32
+            std::string cmd = "powershell -Command \"cd Assignment_03/driver; ./mst_driver.exe ../tests/" + filename + " > ../outputs/" + out_name + "\"";
+        #else
+            std::string cmd = "cd Assignment_03/driver && ./mst_driver.exe ../tests/" + filename + " > ../outputs/" + out_name;
+        #endif
+
+        run_cmd(cmd.c_str());
+        std::cout << "MST algorithms executed successfully! Output saved to Assignment_03/outputs/" << out_name << "\n";
+
+    } else if (algo_choice == 2) {
+        std::cout << "\n[BATCH] Compiling Assignment 3 Driver...\n";
+        run_cmd("g++ -O3 -I individual_csr Assignment_03/driver/mst_driver.cpp Assignment_03/src/mst.cpp individual_csr/individual_csr.cpp -o Assignment_03/driver/mst_driver.exe");
+
+        std::cout << "\n[BATCH] Running all matching MST test files automatically...\n";
+        
+        #ifdef _WIN32
+            std::string batch_cmd = "powershell -Command \""
+                "foreach ($file in Get-ChildItem -Path Assignment_03/tests -Filter 'mst_*.txt') { "
+                "  $outName = $file.Name -replace 'mst_', 'mst_out_'; "
+                "  Write-Host 'Running MST on:' $file.Name '->' $outName; "
+                "  cd Assignment_03/driver; ./mst_driver.exe ('../tests/' + $file.Name) | Out-File ('../outputs/' + $outName); cd ../..; "
+                "}"
+                "\"";
+        #else
+            std::string batch_cmd = "cd Assignment_03/driver && "
+                "for f in ../tests/mst_*.txt; do "
+                "  base=$(basename $f); "
+                "  out=$(echo $base | sed 's/mst_/mst_out_/'); "
+                "  ./mst_driver.exe $f > ../outputs/$out; "
+                "done";
+        #endif
+
+        run_cmd(batch_cmd.c_str());
+        std::cout << "\n[BATCH] All Assignment 3 tasks executed successfully! Check Assignment_03/outputs/ folder.\n";
+
+    } else {
+        std::cout << "Invalid choice for Assignment 3.\n";
+    }
+}
+
 int main() {
     int assignment = 0;
     std::cout << "========================================\n";
@@ -216,13 +278,16 @@ int main() {
     std::cout << "========================================\n";
     std::cout << "1. Assignment 1\n";
     std::cout << "2. Assignment 2\n";
-    std::cout << "Select Assignment number (1-2): ";
+    std::cout << "3. Assignment 3\n";
+    std::cout << "Select Assignment number (1-3): ";
 
     if (std::cin >> assignment) {
         if (assignment == 1) {
             handle_assignment_1();
         } else if (assignment == 2) {
             handle_assignment_2();
+        } else if (assignment == 3) {
+            handle_assignment_3();
         } else {
             std::cout << "Invalid assignment selection.\n";
         }
