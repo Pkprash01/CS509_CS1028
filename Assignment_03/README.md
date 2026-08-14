@@ -78,7 +78,6 @@ CS509/
             ├── mst_out_50000.txt
             └── mst_out_100000.txt
 
-
 ---
 
 # Assignment 03
