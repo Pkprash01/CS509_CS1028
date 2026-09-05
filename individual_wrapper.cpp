@@ -274,58 +274,69 @@ void handle_assignment_4() {
     int algo_choice = 0;
     std::cout << "\n--- Assignment 4 Menu ---\n";
     std::cout << "1. Run Single Vertex Coloring Test File\n";
-    std::cout << "2. Batch Run ALL Assignment 4 Inputs (Coloring)\n";
-    std::cout << "Select task choice (1-2): ";
+    std::cout << "2. Batch Run ALL Coloring Inputs\n";
+    std::cout << "3. Run Single PageRank Test File\n";
+    std::cout << "4. Batch Run ALL PageRank Inputs\n";
+    std::cout << "Select task choice (1-4): ";
     std::cin >> algo_choice;
 
     if (algo_choice == 1) {
         std::string filename;
         std::cout << "Enter Coloring input filename (e.g., color_10.txt): ";
         std::cin >> filename;
-
         run_cmd("g++ -O3 -I individual_csr Assignment_04/driver/coloring_driver.cpp Assignment_04/src/vertex_coloring.cpp individual_csr/individual_csr.cpp -o Assignment_04/driver/coloring_driver.exe");
-        
-        std::string out_name = filename;
-        if (out_name.rfind("color_", 0) == 0) {
-            out_name.replace(0, 6, "color_out_");
-        } else {
-            out_name = "color_out_" + out_name;
-        }
-
+        std::string out_name = (filename.rfind("color_", 0) == 0) ? ("color_out_" + filename.substr(6)) : ("color_out_" + filename);
         #ifdef _WIN32
             std::string cmd = "powershell -Command \"cd Assignment_04/driver; ./coloring_driver.exe ../tests/" + filename + " > ../outputs/" + out_name + "\"";
         #else
             std::string cmd = "cd Assignment_04/driver && ./coloring_driver.exe ../tests/" + filename + " > ../outputs/" + out_name;
         #endif
-
         run_cmd(cmd.c_str());
-        std::cout << "Vertex Coloring executed successfully! Output saved to Assignment_04/outputs/" << out_name << "\n";
+        std::cout << "Output saved to Assignment_04/outputs/" << out_name << "\n";
 
     } else if (algo_choice == 2) {
-        std::cout << "\n[BATCH] Compiling Assignment 4 Coloring Driver...\n";
+        std::cout << "\n[BATCH] Running all Coloring tests...\n";
         run_cmd("g++ -O3 -I individual_csr Assignment_04/driver/coloring_driver.cpp Assignment_04/src/vertex_coloring.cpp individual_csr/individual_csr.cpp -o Assignment_04/driver/coloring_driver.exe");
-
-        std::cout << "\n[BATCH] Running all matching Coloring test files automatically...\n";
-        
         #ifdef _WIN32
             std::string batch_cmd = "powershell -Command \""
                 "foreach ($file in Get-ChildItem -Path Assignment_04/tests -Filter 'color_*.txt') { "
                 "  $outName = $file.Name -replace 'color_', 'color_out_'; "
-                "  Write-Host 'Running Coloring on:' $file.Name '->' $outName; "
+                "  Write-Host 'Running Coloring:' $file.Name '->' $outName; "
                 "  cd Assignment_04/driver; ./coloring_driver.exe ('../tests/' + $file.Name) | Out-File ('../outputs/' + $outName); cd ../..; "
-                "}"
-                "\"";
+                "}\"";
         #else
-            std::string batch_cmd = "cd Assignment_04/driver && "
-                "for f in ../tests/color_*.txt; do "
-                "  base=$(basename $f); "
-                "  out=$(echo $base | sed 's/color_/color_out_/'); "
-                "  ./coloring_driver.exe $f > ../outputs/$out; "
-                "done";
+            std::string batch_cmd = "cd Assignment_04/driver && for f in ../tests/color_*.txt; do base=$(basename $f); out=$(echo $base | sed 's/color_/color_out_/'); ./coloring_driver.exe $f > ../outputs/$out; done";
         #endif
-
         run_cmd(batch_cmd.c_str());
-        std::cout << "\n[BATCH] All Assignment 4 Coloring tasks executed! Check Assignment_04/outputs/ folder.\n";
+
+    } else if (algo_choice == 3) {
+        std::string filename;
+        std::cout << "Enter PageRank input filename (e.g., pagerank_10.txt): ";
+        std::cin >> filename;
+        run_cmd("g++ -O3 -I individual_csr Assignment_04/driver/pagerank_driver.cpp Assignment_04/src/pagerank.cpp individual_csr/individual_csr.cpp -o Assignment_04/driver/pagerank_driver.exe");
+        std::string out_name = (filename.rfind("pagerank_", 0) == 0) ? ("pagerank_out_" + filename.substr(9)) : ("pagerank_out_" + filename);
+        #ifdef _WIN32
+            std::string cmd = "powershell -Command \"cd Assignment_04/driver; ./pagerank_driver.exe ../tests/" + filename + " > ../outputs/" + out_name + "\"";
+        #else
+            std::string cmd = "cd Assignment_04/driver && ./pagerank_driver.exe ../tests/" + filename + " > ../outputs/" + out_name;
+        #endif
+        run_cmd(cmd.c_str());
+        std::cout << "Output saved to Assignment_04/outputs/" << out_name << "\n";
+
+    } else if (algo_choice == 4) {
+        std::cout << "\n[BATCH] Running all PageRank tests...\n";
+        run_cmd("g++ -O3 -I individual_csr Assignment_04/driver/pagerank_driver.cpp Assignment_04/src/pagerank.cpp individual_csr/individual_csr.cpp -o Assignment_04/driver/pagerank_driver.exe");
+        #ifdef _WIN32
+            std::string batch_cmd = "powershell -Command \""
+                "foreach ($file in Get-ChildItem -Path Assignment_04/tests -Filter 'pagerank_*.txt') { "
+                "  $outName = $file.Name -replace 'pagerank_', 'pagerank_out_'; "
+                "  Write-Host 'Running PageRank:' $file.Name '->' $outName; "
+                "  cd Assignment_04/driver; ./pagerank_driver.exe ('../tests/' + $file.Name) | Out-File ('../outputs/' + $outName); cd ../..; "
+                "}\"";
+        #else
+            std::string batch_cmd = "cd Assignment_04/driver && for f in ../tests/pagerank_*.txt; do base=$(basename $f); out=$(echo $base | sed 's/pagerank_/pagerank_out_/'); ./pagerank_driver.exe $f > ../outputs/$out; done";
+        #endif
+        run_cmd(batch_cmd.c_str());
 
     } else {
         std::cout << "Invalid choice for Assignment 4.\n";
