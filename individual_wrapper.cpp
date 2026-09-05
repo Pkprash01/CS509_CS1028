@@ -270,6 +270,67 @@ void handle_assignment_3() {
         std::cout << "Invalid choice for Assignment 3.\n";
     }
 }
+void handle_assignment_4() {
+    int algo_choice = 0;
+    std::cout << "\n--- Assignment 4 Menu ---\n";
+    std::cout << "1. Run Single Vertex Coloring Test File\n";
+    std::cout << "2. Batch Run ALL Assignment 4 Inputs (Coloring)\n";
+    std::cout << "Select task choice (1-2): ";
+    std::cin >> algo_choice;
+
+    if (algo_choice == 1) {
+        std::string filename;
+        std::cout << "Enter Coloring input filename (e.g., color_10.txt): ";
+        std::cin >> filename;
+
+        run_cmd("g++ -O3 -I individual_csr Assignment_04/driver/coloring_driver.cpp Assignment_04/src/vertex_coloring.cpp individual_csr/individual_csr.cpp -o Assignment_04/driver/coloring_driver.exe");
+        
+        std::string out_name = filename;
+        if (out_name.rfind("color_", 0) == 0) {
+            out_name.replace(0, 6, "color_out_");
+        } else {
+            out_name = "color_out_" + out_name;
+        }
+
+        #ifdef _WIN32
+            std::string cmd = "powershell -Command \"cd Assignment_04/driver; ./coloring_driver.exe ../tests/" + filename + " > ../outputs/" + out_name + "\"";
+        #else
+            std::string cmd = "cd Assignment_04/driver && ./coloring_driver.exe ../tests/" + filename + " > ../outputs/" + out_name;
+        #endif
+
+        run_cmd(cmd.c_str());
+        std::cout << "Vertex Coloring executed successfully! Output saved to Assignment_04/outputs/" << out_name << "\n";
+
+    } else if (algo_choice == 2) {
+        std::cout << "\n[BATCH] Compiling Assignment 4 Coloring Driver...\n";
+        run_cmd("g++ -O3 -I individual_csr Assignment_04/driver/coloring_driver.cpp Assignment_04/src/vertex_coloring.cpp individual_csr/individual_csr.cpp -o Assignment_04/driver/coloring_driver.exe");
+
+        std::cout << "\n[BATCH] Running all matching Coloring test files automatically...\n";
+        
+        #ifdef _WIN32
+            std::string batch_cmd = "powershell -Command \""
+                "foreach ($file in Get-ChildItem -Path Assignment_04/tests -Filter 'color_*.txt') { "
+                "  $outName = $file.Name -replace 'color_', 'color_out_'; "
+                "  Write-Host 'Running Coloring on:' $file.Name '->' $outName; "
+                "  cd Assignment_04/driver; ./coloring_driver.exe ('../tests/' + $file.Name) | Out-File ('../outputs/' + $outName); cd ../..; "
+                "}"
+                "\"";
+        #else
+            std::string batch_cmd = "cd Assignment_04/driver && "
+                "for f in ../tests/color_*.txt; do "
+                "  base=$(basename $f); "
+                "  out=$(echo $base | sed 's/color_/color_out_/'); "
+                "  ./coloring_driver.exe $f > ../outputs/$out; "
+                "done";
+        #endif
+
+        run_cmd(batch_cmd.c_str());
+        std::cout << "\n[BATCH] All Assignment 4 Coloring tasks executed! Check Assignment_04/outputs/ folder.\n";
+
+    } else {
+        std::cout << "Invalid choice for Assignment 4.\n";
+    }
+}
 
 int main() {
     int assignment = 0;
@@ -279,7 +340,8 @@ int main() {
     std::cout << "1. Assignment 1\n";
     std::cout << "2. Assignment 2\n";
     std::cout << "3. Assignment 3\n";
-    std::cout << "Select Assignment number (1-3): ";
+    std::cout << "4. Assignment 4\n";
+    std::cout << "Select Assignment number (1-4): ";
 
     if (std::cin >> assignment) {
         if (assignment == 1) {
@@ -288,6 +350,8 @@ int main() {
             handle_assignment_2();
         } else if (assignment == 3) {
             handle_assignment_3();
+        } else if (assignment == 4) {
+            handle_assignment_4();
         } else {
             std::cout << "Invalid assignment selection.\n";
         }
