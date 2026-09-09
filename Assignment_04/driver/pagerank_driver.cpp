@@ -55,4 +55,4 @@ int main(int argc, char* argv[]) {
     free_csr_graph(graph);
 
     return 0;
-}
+} 
